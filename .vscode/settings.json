@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
     "gitpullr"
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

@@ -6,6 +6,7 @@
     "start": "node -e console.clear()"
   },
   "env": {
-    "TS_NODE_PROJECT": "tsconfig.backend.json"
+    "TS_NODE_PROJECT": "tsconfig.backend.json",
+    "NODE_ENV": "development"
   }
 }
