@@ -1,0 +1,11 @@
+{
+  "watch": ["backend"],
+  "ext": "ts,json",
+  "exec": "node -r ts-node/register ./backend/index.ts",
+  "events": {
+    "start": "node -e console.clear()"
+  },
+  "env": {
+    "TS_NODE_PROJECT": "tsconfig.backend.json"
+  }
+}
