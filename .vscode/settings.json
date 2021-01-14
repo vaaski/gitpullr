@@ -1,6 +1,3 @@
 {
-  "cSpell.words": [
-    "gitpullr"
-  ],
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "cSpell.words": ["gitpullr", "repos"]
 }
