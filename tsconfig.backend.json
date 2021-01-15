@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ES2017",
     "module": "commonjs",
-    "lib": ["es6"],
+    "lib": ["es2018"],
     "allowJs": true,
-    "outDir": "backend/build",
+    "outDir": "lib",
     "rootDir": "backend",
     "strict": true,
     "noImplicitAny": true,
@@ -13,5 +13,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["tests", "src", "dist", "node_modules", "*.config.js"]
+  "exclude": ["tests", "src", "dist", "node_modules", "*.config.js", "lib"]
 }

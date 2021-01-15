@@ -1,19 +1,40 @@
 {
   "name": "gitpullr",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "description": "Automagically update your Node.js code when a new commit is pushed to GitHub.",
+  "main": "lib/index.js",
+  "author": "vaaski <admin@vaa.ski>",
+  "bin": "lib/cli.js",
+  "keywords": [
+    "github",
+    "pull",
+    "automation",
+    "vue"
+  ],
   "private": true,
+  "files": [
+    "lib/*",
+    "dist/*"
+  ],
   "scripts": {
     "dev": "concurrently -r npm:serve npm:backend:serve",
+    "start": "npm run build && npm run backend",
+    "build": "concurrently npm:frontend:build npm:backend:build",
     "backend": "node backend/build",
-    "backend:serve": "nodemon",
-    "backend:build": "rimraf backend/build && tsc -P tsconfig.backend.json",
-    "start": "concurrently npm:build npm:backend:build && npm run backend",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "backend:dev": "nodemon",
+    "backend:build": "rimraf lib && tsc -P tsconfig.backend.json",
+    "frontend:dev": "vue-cli-service serve",
+    "frontend:build": "vue-cli-service build",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "commit": "cz -S"
+    "commit": "cz -S",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@koa/router": "^10.0.0",
@@ -22,6 +43,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0",
+    "minimist": "^1.2.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
