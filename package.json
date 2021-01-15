@@ -1,6 +1,6 @@
 {
   "name": "gitpullr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Automagically update your Node.js code when a new commit is pushed to GitHub.",
   "main": "lib/index.js",
   "author": "vaaski <admin@vaa.ski>",
