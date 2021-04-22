@@ -1,0 +1,16 @@
+{
+  "hookPath": "/",
+  "projects": [
+    {
+      "name": "your-project",
+      "path": "absolute/path/to/your-project",
+      "secret": "verysecret",
+      "hooks": {
+        "push": {
+          "exec": "git pull && npm run build && pm2 restart your-project",
+          "filter": "/\\[skip backend\\]/g"
+        }
+      }
+    }
+  ]
+}
