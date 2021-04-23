@@ -14,6 +14,8 @@ export interface Config {
   /**
    * used for self-testing, leave empty if you don't want
    * to verify if the server is reachable upon startup.
+   *
+   * this has to be the complete address, including port and path.
    */
   hookAddr?: string
   projects: Project[]

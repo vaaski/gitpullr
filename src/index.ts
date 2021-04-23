@@ -61,8 +61,6 @@ server.listen(port, async () => {
     console.log("performing self-check")
 
     const url = new URL(config.hookAddr)
-    url.port = port
-    url.pathname = pathname
     if (!url.pathname.endsWith("/")) url.pathname += "/"
     url.pathname += "ping"
 
