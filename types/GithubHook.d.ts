@@ -1,4 +1,6 @@
 export namespace GithubHook {
+  export type JSONorURLEncoded = PushHook & { payload?: string }
+
   export interface PushHook {
     ref: string
     before: string
