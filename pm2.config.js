@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      script: "./lib/index.js",
+      script: "./lib/src/index.js",
       name: "gitpullr",
     },
   ],

@@ -17,7 +17,7 @@ const server = express()
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
 
-server.get("/ping", (_, res) => {
+server.get(pathname, (_, res) => {
   log("received ping, sending pong")
   res.status(200).send("pong")
 })
@@ -60,13 +60,9 @@ server.listen(port, async () => {
   if (config.hookAddr) {
     console.log("performing self-check")
 
-    const url = new URL(config.hookAddr)
-    if (!url.pathname.endsWith("/")) url.pathname += "/"
-    url.pathname += "ping"
-
     log("sending ping")
     try {
-      await got.get(url)
+      await got.get(config.hookAddr)
       console.log("self-check passed")
     } catch (error) {
       console.log(`gitpullr is not reachable\n${error.name}:`, error.message)
