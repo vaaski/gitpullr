@@ -2,6 +2,7 @@ import express from "express"
 import execa from "execa"
 import { payload } from "./util"
 import secret from "./secret"
+import telegram from "../plugins/telegram"
 
 import config from "../config"
 
@@ -24,12 +25,17 @@ server.post(config.hookPath, async (req, res) => {
 
   console.log(`new request for project ${project.name}`)
 
-  for (const command of project.exec) {
-    await execa.command(command, {
-      cwd: project.path,
-      stdout: process.stdout,
-      stderr: process.stderr,
-    })
+  try {
+    for (const command of project.exec) {
+      await execa.command(command, {
+        cwd: project.path,
+        stdout: process.stdout,
+        stderr: process.stderr,
+      })
+    }
+    await telegram(project)
+  } catch (error) {
+    await telegram(project, true)
   }
 
   res.sendStatus(200)
