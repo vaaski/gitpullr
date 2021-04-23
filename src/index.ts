@@ -18,8 +18,9 @@ server.post(config.hookPath, async (req, res) => {
   if (!project) return res.sendStatus(404)
   if (project.secret && !secret(project.secret, req)) return res.sendStatus(401)
 
-  if (project.filter) {
-    const reg = new RegExp(project.filter)
+  if (project.filter !== null) {
+    const filter = project.filter ?? "\\[skip (?:backend|ci)\\]"
+    const reg = new RegExp(filter)
     if (reg.test(body.head_commit.message)) return res.status(200).send("filter flag detected")
   }
 
