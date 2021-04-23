@@ -1,6 +1,6 @@
 {
   "name": "gitpullr",
-  "description": "automagically update your codebase when you push to github.",
+  "description": "Automagically update your project when a new commit is pushed to GitHub.",
   "keywords": [
     "github",
     "git",

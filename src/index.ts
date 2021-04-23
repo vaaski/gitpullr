@@ -1,16 +1,28 @@
+import debug from "debug"
 import express from "express"
 import execa from "execa"
 import { payload } from "./util"
 import secret from "./secret"
 import plugins from "../plugins"
+import got from "got"
+
+const log = debug("gitpullr")
 
 import config from "../config"
+
+const pathname = config.hookPath || "/"
+const port = config.hookPort || "8088"
 
 const server = express()
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
 
-server.post(config.hookPath, async (req, res) => {
+server.get("/ping", (_, res) => {
+  log("received ping, sending pong")
+  res.status(200).send("pong")
+})
+
+server.post(pathname, async (req, res) => {
   const body = payload(req.body)
 
   const project = config.projects.find(p => p.name === body.repository.full_name)
@@ -42,6 +54,24 @@ server.post(config.hookPath, async (req, res) => {
   res.sendStatus(200)
 })
 
-server.listen(config.hookPort, () => {
+server.listen(port, async () => {
   console.log(`gitpullr running on port ${config.hookPort} and path ${config.hookPath}`)
+
+  if (config.hookAddr) {
+    console.log("performing self-check")
+
+    const url = new URL(config.hookAddr)
+    url.port = port
+    url.pathname = pathname
+    if (!url.pathname.endsWith("/")) url.pathname += "/"
+    url.pathname += "ping"
+
+    log("sending ping")
+    try {
+      await got.get(url)
+      console.log("self-check passed")
+    } catch (error) {
+      console.log(`gitpullr is not reachable\n${error.name}:`, error.message)
+    }
+  }
 })

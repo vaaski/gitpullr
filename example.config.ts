@@ -1,8 +1,9 @@
 import { defineConfig } from "./src/util"
 
 export default defineConfig({
-  hookPath: "/",
-  hookPort: 8088,
+  hookPath: "/gitpullr-hook",
+  hookPort: "8088",
+  hookAddr: "https://your-server.com",
   projects: [
     {
       name: "your-username/your-project",
