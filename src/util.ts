@@ -1,3 +1,4 @@
+import { Config } from "$/Config"
 import type { GithubHook } from "$/GithubHook"
 
 export const payload = (input: GithubHook.JSONorURLEncoded): GithubHook.PushHook => {
@@ -6,3 +7,5 @@ export const payload = (input: GithubHook.JSONorURLEncoded): GithubHook.PushHook
 
   return ret
 }
+
+export const defineConfig = (input: Config): Config => input

@@ -16,5 +16,5 @@
       "$/*": ["./types/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "plugins", "config.ts", "example.config.ts"]
 }

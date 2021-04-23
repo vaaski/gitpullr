@@ -23,8 +23,10 @@ export default (secret: string, req: Request): boolean => {
       return false
     }
   } catch (error) {
+    log("an error occurred whilst trying to verify the signature, maybe its missing.")
     return false
   }
 
+  log("signature verified successfully")
   return true
 }

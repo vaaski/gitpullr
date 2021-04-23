@@ -4,10 +4,22 @@ export interface Config {
   projects: Project[]
 }
 
+export interface GitpullrPlugins {
+  telegram: {
+    token: string
+    chat: string
+    silent?: boolean
+  }
+  test: {
+    test2: boolean
+  }
+}
+
 export interface Project {
   name: string
   path: string
-  secret: string
   exec: string[]
-  filter: string
+  secret?: string
+  filter?: string
+  plugins?: Partial<GitpullrPlugins>
 }
