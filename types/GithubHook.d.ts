@@ -2,19 +2,22 @@ export namespace GithubHook {
   export type JSONorURLEncoded = PushHook & { payload?: string }
 
   export interface PushHook {
-    ref: string
-    before: string
-    after: string
+    ref?: string
+    before?: string
+    after?: string
     repository: Repository
-    pusher: Pusher
+    pusher?: Pusher
     sender: Sender
-    created: boolean
-    deleted: boolean
-    forced: boolean
-    base_ref: null
-    compare: string
-    commits: Commit[]
-    head_commit: Commit
+    created?: boolean
+    deleted?: boolean
+    forced?: boolean
+    base_ref?: null
+    compare?: string
+    commits?: Commit[]
+    head_commit?: Commit
+    zen?: string
+    hook_id?: number
+    hook?: Hook
   }
 
   export interface Commit {
@@ -35,6 +38,34 @@ export namespace GithubHook {
     name: string
     email: string
     username: string
+  }
+
+  export interface Hook {
+    type: string
+    id: number
+    name: string
+    active: boolean
+    events: string[]
+    config: Config
+    updated_at: Date
+    created_at: Date
+    url: string
+    test_url: string
+    ping_url: string
+    last_response: LastResponse
+  }
+
+  export interface Config {
+    content_type: string
+    insecure_ssl: string
+    secret: string
+    url: string
+  }
+
+  export interface LastResponse {
+    code: null
+    status: string
+    message: null
   }
 
   export interface Pusher {
@@ -89,9 +120,9 @@ export namespace GithubHook {
     labels_url: string
     releases_url: string
     deployments_url: string
-    created_at: number
+    created_at: Date | number
     updated_at: Date
-    pushed_at: number
+    pushed_at: Date | number
     git_url: string
     ssh_url: string
     clone_url: string
@@ -116,8 +147,8 @@ export namespace GithubHook {
     open_issues: number
     watchers: number
     default_branch: string
-    stargazers: number
-    master_branch: string
+    stargazers?: number
+    master_branch?: string
   }
 
   export interface Sender {

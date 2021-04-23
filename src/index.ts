@@ -30,6 +30,11 @@ server.post(pathname, async (req, res) => {
   if (!project) return res.sendStatus(404)
   if (project.secret && !secret(project.secret, req)) return res.sendStatus(401)
 
+  if (!body.head_commit) {
+    console.log(`hook config works. Zen: ${body.zen || "not found."}`)
+    return res.status(200).send(body.zen)
+  }
+
   if (project.filter !== null) {
     const filter = project.filter ?? "\\[skip (?:backend|ci)\\]"
     const reg = new RegExp(filter)
