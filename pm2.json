@@ -1,0 +1,4 @@
+{
+  "script": "./lib/src/index.js",
+  "name": "gitpullr"
+}
