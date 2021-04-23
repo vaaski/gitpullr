@@ -1,9 +1,9 @@
 import debug from "debug"
 import express from "express"
 import execa from "execa"
-import { payload } from "./util"
+import { formatDuration, payload } from "./util"
 import secret from "./secret"
-import plugins from "../plugins"
+import { telegram } from "../plugins"
 import got from "got"
 
 const log = debug("gitpullr")
@@ -43,6 +43,7 @@ server.post(pathname, async (req, res) => {
 
   console.log(`new request for project ${project.name}`)
 
+  const start = Date.now()
   try {
     for (const command of project.exec) {
       await execa.command(command, {
@@ -51,9 +52,11 @@ server.post(pathname, async (req, res) => {
         stderr: process.stderr,
       })
     }
-    await plugins.telegram(project)
+
+    const time = `in ${formatDuration(Date.now() - start)}`
+    await telegram.default(project, telegram.strings.success(time))
   } catch (error) {
-    await plugins.telegram(project, true)
+    await telegram.default(project, telegram.strings.fail())
   }
 
   res.sendStatus(200)

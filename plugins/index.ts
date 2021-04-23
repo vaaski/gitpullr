@@ -1,3 +1,1 @@
-import telegram from "./telegram"
-
-export default { telegram }
+export * as telegram from "./telegram"
