@@ -32,6 +32,7 @@ server.post(pathname, async (req, res) => {
 
   if (!body.head_commit) {
     console.log(`hook config works. Zen: ${body.zen || "not found."}`)
+    telegram.notify(project, telegram.strings.setupSuccess())
     return res.status(200).send(body.zen)
   }
 
@@ -54,9 +55,9 @@ server.post(pathname, async (req, res) => {
     }
 
     const time = `in ${formatDuration(Date.now() - start)}`
-    await telegram.default(project, telegram.strings.success(time))
+    await telegram.notify(project, telegram.strings.success(time))
   } catch (error) {
-    await telegram.default(project, telegram.strings.fail())
+    await telegram.notify(project, telegram.strings.fail())
   }
 
   res.sendStatus(200)

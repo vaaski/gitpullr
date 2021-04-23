@@ -1,13 +1,17 @@
 import { Project } from "$/Config"
 import got from "got"
 
+export type MessageString = (...x: any) => (project: Project) => string
+
 export const strings = {
   fail: () => (project: Project): string => `⚠️ failed to update backend for ${project.name}.`,
   success: (add?: string) => (project: Project): string =>
     `⏬ successfully updated backend for ${project.name}${add ? " " + add : ""}.`,
+  setupSuccess: () => (project: Project): string =>
+    `gitpullr setup successful for ${project.name}`,
 }
 
-export default async (project: Project, string = strings.success()): Promise<void> => {
+export const notify = async (project: Project, string = strings.success()): Promise<void> => {
   if (!project.plugins?.telegram) return
   const { token, chat, silent } = project.plugins.telegram
   const api = (m: string) => `https://api.telegram.org/bot${token}/${m}`
