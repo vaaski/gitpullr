@@ -44,6 +44,8 @@ server.post(pathname, async (req, res) => {
 
   console.log(`new request for project ${project.name}`)
 
+  res.sendStatus(200)
+
   const start = Date.now()
   try {
     for (const command of project.exec) {
@@ -59,8 +61,6 @@ server.post(pathname, async (req, res) => {
   } catch (error) {
     await telegram.notify(project, telegram.strings.fail())
   }
-
-  res.sendStatus(200)
 })
 
 server.listen(port, async () => {
