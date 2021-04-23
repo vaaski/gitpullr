@@ -2,7 +2,7 @@ import express from "express"
 import execa from "execa"
 import { payload } from "./util"
 import secret from "./secret"
-import telegram from "../plugins/telegram"
+import plugins from "../plugins"
 
 import config from "../config"
 
@@ -34,9 +34,9 @@ server.post(config.hookPath, async (req, res) => {
         stderr: process.stderr,
       })
     }
-    await telegram(project)
+    await plugins.telegram(project)
   } catch (error) {
-    await telegram(project, true)
+    await plugins.telegram(project, true)
   }
 
   res.sendStatus(200)
