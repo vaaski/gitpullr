@@ -47,11 +47,11 @@ server.post(pathname, async (req, res) => {
     log("filter passed")
   }
 
-  if (project.branch !== null) {
+  if (project.branch !== null && body.ref) {
     const filter = project.branch ?? "^refs\\/heads\\/(?:main|master)$"
     const reg = new RegExp(filter)
 
-    if (!reg.test(body.head_commit.message)) {
+    if (!reg.test(body.ref)) {
       log("branch not passed")
       return res.status(200).send("not the configured branch")
     }
