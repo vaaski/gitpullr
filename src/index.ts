@@ -39,7 +39,23 @@ server.post(pathname, async (req, res) => {
   if (project.filter !== null) {
     const filter = project.filter ?? "\\[skip (?:backend|ci)\\]"
     const reg = new RegExp(filter)
-    if (reg.test(body.head_commit.message)) return res.status(200).send("filter flag detected")
+
+    if (reg.test(body.head_commit.message)) {
+      log("filter not passed")
+      return res.status(200).send("filter flag detected")
+    }
+    log("filter passed")
+  }
+
+  if (project.branch !== null) {
+    const filter = project.branch ?? "^refs\\/heads\\/(?:main|master)$"
+    const reg = new RegExp(filter)
+
+    if (!reg.test(body.head_commit.message)) {
+      log("branch not passed")
+      return res.status(200).send("not the configured branch")
+    }
+    log("branch passed")
   }
 
   console.log(`new request for project ${project.name}`)

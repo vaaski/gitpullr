@@ -18,6 +18,9 @@ export interface Config {
    * this has to be the complete address, including port and path.
    */
   hookAddr?: string
+  /**
+   * list of projects
+   */
   projects: Project[]
 }
 
@@ -61,10 +64,19 @@ export interface Project {
    */
   secret?: string
   /**
-   * optional regex to skip execution
+   * optional regex to skip execution, can be `null` to disable filtering
    *
-   * default: "\\[skip (?:backend|ci)\\"
+   * default: `\\[skip (?:backend|ci)\\]`
    */
   filter?: string
+  /**
+   * optional regex for the branch, can be `null` to disable branch matching
+   *
+   * default: `^refs\\/heads\\/(?:main|master)$`
+   */
+  branch?: string
+  /**
+   * list of plugins
+   */
   plugins?: Partial<GitpullrPlugins>
 }
