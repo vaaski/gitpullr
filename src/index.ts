@@ -30,11 +30,13 @@ server.post(pathname, async (req, res) => {
   if (!project) return res.sendStatus(404)
   if (project.secret && !secret(project.secret, req)) return res.sendStatus(401)
 
-  if (!body.head_commit) {
-    console.log(`hook config works. Zen: ${body.zen || "not found."}`)
-    telegram.notify(project, telegram.strings.setupSuccess())
+  if (body.zen) {
+    console.log(`hook config works. Zen: ${body.zen}`)
+    telegram.notify(project, telegram.strings.setupSuccess(body.zen))
     return res.status(200).send(body.zen)
   }
+
+  if (!body.head_commit) return
 
   if (project.filter !== null) {
     const filter = project.filter ?? "\\[skip (?:backend|ci)\\]"

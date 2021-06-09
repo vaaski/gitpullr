@@ -7,8 +7,8 @@ export const strings = {
   fail: () => (project: Project): string => `⚠️ failed to update backend for ${project.name}.`,
   success: (add?: string) => (project: Project): string =>
     `⏬ successfully updated backend for ${project.name}${add ? " " + add : ""}`,
-  setupSuccess: () => (project: Project): string =>
-    `gitpullr setup successful for ${project.name}`,
+  setupSuccess: (zen?: string) => (project: Project): string =>
+    `gitpullr setup successful for ${project.name}` + zen ? `\n\nzen: ${zen}` : "",
 }
 
 export const notify = async (project: Project, string = strings.success()): Promise<void> => {
