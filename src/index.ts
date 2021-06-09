@@ -74,10 +74,11 @@ server.post(pathname, async (req, res) => {
       })
     }
 
-    let time = `in ${formatDuration(Date.now() - start)}`
-    time += `\n\n${body.head_commit.message}`
+    let additional = `in ${formatDuration(Date.now() - start)}`
+    const commits = body.commits?.map(c => c.message).join("\n\n")
+    additional += `\n\n${commits}`
 
-    await telegram.notify(project, telegram.strings.success(time))
+    await telegram.notify(project, telegram.strings.success(additional))
   } catch (error) {
     await telegram.notify(project, telegram.strings.fail())
   }
