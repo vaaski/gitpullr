@@ -1,6 +1,7 @@
 {
   "name": "gitpullr",
   "description": "Automagically update your project when a new commit is pushed to GitHub.",
+  "private": true,
   "keywords": [
     "github",
     "git",
