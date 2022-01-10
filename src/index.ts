@@ -81,7 +81,7 @@ server.post(pathname, async (req, res) => {
 
     let additional = `in ${formatDuration(Date.now() - start)}`
     const commits = body.commits?.map(c => c.message).join("\n\n")
-    additional += `\non branch: ${body.ref?.replace("refs/heads/", "")}`
+    additional += `\nbranch: <code>${body.ref?.replace("refs/heads/", "")}</code>`
     additional += `\n\n${commits}`
 
     await telegram.notify(project, telegram.strings.success(additional))
