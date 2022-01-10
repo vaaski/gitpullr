@@ -25,7 +25,21 @@ server.get(pathname, (_, res) => {
 server.post(pathname, async (req, res) => {
   const body = payload(req.body)
 
-  const project = config.projects.find(p => p.name === body.repository.full_name)
+  const project = config.projects.find(p => {
+    const matchingName = p.name === body.repository.full_name
+    let matchingBranch = false
+
+    if (p.branch !== null && body.ref) {
+      const defaultBranch = "main|master"
+      const filter = `^refs\\/heads\\/(?:${p.branch ?? defaultBranch})$`
+      const reg = new RegExp(filter)
+
+      log(`matching ${p.branch} to ${filter}`)
+      if (reg.test(body.ref)) matchingBranch = true
+    }
+
+    return matchingName && matchingBranch
+  })
 
   if (!project) return res.sendStatus(404)
   if (project.secret && !secret(project.secret, req)) return res.sendStatus(401)
@@ -49,16 +63,7 @@ server.post(pathname, async (req, res) => {
     log("filter passed")
   }
 
-  if (project.branch !== null && body.ref) {
-    const filter = project.branch ?? "^refs\\/heads\\/(?:main|master)$"
-    const reg = new RegExp(filter)
 
-    if (!reg.test(body.ref)) {
-      log("branch not passed")
-      return res.status(200).send("not the configured branch")
-    }
-    log("branch passed")
-  }
 
   console.log(`new request for project ${project.name}`)
 
@@ -75,7 +80,8 @@ server.post(pathname, async (req, res) => {
     }
 
     let additional = `in ${formatDuration(Date.now() - start)}`
-    const commits = body.commits?.map(c => c.message).join("\n\n---\n\n")
+    const commits = body.commits?.map(c => c.message).join("\n\n")
+    additional += `\non branch: ${body.ref?.replace("refs/heads/", "")}`
     additional += `\n\n${commits}`
 
     await telegram.notify(project, telegram.strings.success(additional))
@@ -94,7 +100,7 @@ server.listen(port, async () => {
     try {
       await got.get(config.hookAddr)
       console.log("self-check passed")
-    } catch (error) {
+    } catch (error: any) {
       console.log(`gitpullr is not reachable\n${error.name}:`, error.message)
     }
   }

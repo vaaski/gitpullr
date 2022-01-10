@@ -1,4 +1,7 @@
 {
   "script": "./lib/src/index.js",
-  "name": "gitpullr"
+  "name": "gitpullr",
+  "env": {
+    "DEBUG": "gitpullr*"
+  }
 }
